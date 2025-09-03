@@ -1,1 +1,7 @@
 /.idea/
+/out/
+/target/
+/.allure/
+/allure-results/
+/logs/
+/screenshots/

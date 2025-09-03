@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
+  private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
   private static WebDriver driver;
 
   public static WebDriver getDriver() {
@@ -23,6 +24,7 @@ public class DriverFactory {
           throw new IllegalArgumentException("Browser not supported: " + browser);
       }
       driver.manage().window().maximize();
+      threadDriver.set(driver);
     }
     return driver;
   }
@@ -31,6 +33,8 @@ public class DriverFactory {
     if (driver != null) {
       driver.quit();
       driver = null;
+      threadDriver.get().quit();
+      threadDriver.remove();
     }
   }
 }
