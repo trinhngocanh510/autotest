@@ -1,12 +1,18 @@
 package tests.ui;
 
 import common.ConfigLoader;
+
+import core.extension.DriverLifecycleExtension;
+
 import io.qameta.allure.*;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import tests.ui.base.BaseTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import pages.login.LoginPage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,20 +23,22 @@ import java.nio.file.Paths;
 @Story("Valid credentials")
 @Severity(SeverityLevel.CRITICAL)
 @Owner("tna")
-public class LoginTest extends BaseTest {
-  @Test
-  @Description("User có thể đăng nhập bằng tài khoản hợp lệ")
-  public void testValidLogin() throws IOException {
-    String content = new String(Files.readAllBytes(Paths.get("src/test/resources/users.json")));
-    JSONObject users = new JSONObject(content);
+@ExtendWith(DriverLifecycleExtension.class)
+public class LoginTest {
+    @Test
+    @Tag("ui")
+    @Description("User có thể đăng nhập bằng tài khoản hợp lệ")
+    public void testValidLogin() throws IOException {
+        String content = new String(Files.readAllBytes(Paths.get("src/test/resources/users.json")));
+        JSONObject users = new JSONObject(content);
 
-    String username = users.getJSONObject("validUser").getString("username");
-    String password = users.getJSONObject("validUser").getString("password");
+        String username = users.getJSONObject("validUser").getString("username");
+        String password = users.getJSONObject("validUser").getString("password");
 
-    LoginPage loginPage = new LoginPage();
-    loginPage.openUrl(ConfigLoader.get("base.url"));
-    loginPage.login(username, password);
+        LoginPage loginPage = new LoginPage();
+        loginPage.openUrl(ConfigLoader.get("base.url"));
+        loginPage.login(username, password);
 
-    Assertions.assertTrue(loginPage.isLoginSuccessful());
-  }
+        Assertions.assertTrue(loginPage.isLoginSuccessful());
+    }
 }
