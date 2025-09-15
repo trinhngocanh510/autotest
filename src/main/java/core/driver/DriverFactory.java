@@ -4,6 +4,7 @@ import common.ConfigLoader;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
@@ -12,13 +13,23 @@ public class DriverFactory {
     public static void initDriver() {
         WebDriver driver;
         String browser = ConfigLoader.get("browser");
+        String switches = ConfigLoader.get("chrome.switches");
+        String pathDriver = ConfigLoader.get("webdriver.chrome.driver");
+
         if (threadDriver.get() == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":
-                    System.setProperty(
-                            "webdriver.chrome.driver",
-                            "src/test/resources/drives/windows/chromedriver.exe");
-                    driver = new ChromeDriver();
+                    System.setProperty("webdriver.chrome.driver", pathDriver);
+                    ChromeOptions options = new ChromeOptions();
+
+                    if (switches != null & !switches.isEmpty()) {
+                        String[] listSwitches = switches.split(",");
+                        for (String arg : listSwitches) {
+                            options.addArguments(arg);
+                        }
+                    }
+
+                    driver = new ChromeDriver(options);
                     break;
                 case "firefox":
                     driver = new FirefoxDriver();

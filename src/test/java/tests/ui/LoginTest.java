@@ -39,6 +39,6 @@ public class LoginTest {
         loginPage.openUrl(ConfigLoader.get("base.url"));
         loginPage.login(username, password);
 
-        Assertions.assertTrue(loginPage.isLoginSuccessful());
+        Assertions.assertTrue(loginPage.isLoginSuccessfully());
     }
 }

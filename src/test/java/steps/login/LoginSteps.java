@@ -21,9 +21,14 @@ public class LoginSteps {
         loginPage.login(username, password);
     }
 
+    @When("^I login successful with username \"([^\\\"]*)\"$")
+    public void iLoginWithSuccessfulUsernameAndPassword(String username) {
+        loginPage.loginSuccessful(username);
+    }
+
     @Then("I should be redirected to the inventory page")
     public void iShouldBeRedirectedToTheInventoryPage() {
-        Assertions.assertTrue(loginPage.isLoginSuccessful());
+        Assertions.assertTrue(loginPage.isLoginSuccessfully());
     }
 
     @Then("^I should see an error message \"([^\\\"]*)\"$")

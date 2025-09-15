@@ -9,12 +9,12 @@ Feature: Login
 
   @TC_01 @smoke
   Scenario: Valid user can login successfully
-    When I login with username "stand_user" and password "secret_sauce"
+    When I login with username "standard_user" and password "secret_sauce"
     Then I should be redirected to the inventory page
 
   @TC_02
   Scenario: Invalid user cannot login
-    When I login with username "stand_user" and password "secret_sauced"
+    When I login with username "standard_user" and password "secret_sauced"
     Then I should see an error message "Epic sadface: Username and password do not match any user in this service"
 
   @TC_03

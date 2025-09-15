@@ -1,7 +1,13 @@
 package pages.login;
 
+import org.json.JSONObject;
 import org.openqa.selenium.By;
+
 import pages.BasePage;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class LoginPage extends BasePage {
     private By inpUsername = By.id("user-name");
@@ -21,11 +27,27 @@ public class LoginPage extends BasePage {
         click(btnLogin);
     }
 
+    public void loginSuccessful(String username) {
+        String content;
+
+		try {
+            content = new String(Files.readAllBytes(Paths.get("src/test/resources/users.json")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+		JSONObject users = new JSONObject(content);
+        String password = users.getJSONObject("validUser").getString("password");
+
+		login(username, password);
+        waitForVisibility(iconCart);
+    }
+
     public String getErrorMessage() {
         return getText(fieldErrorMessage);
     }
 
-    public boolean isLoginSuccessful() {
+    public boolean isLoginSuccessfully() {
         return !driver.findElements(iconCart).isEmpty();
     }
 }

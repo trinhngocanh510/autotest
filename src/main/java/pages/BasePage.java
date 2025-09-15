@@ -17,30 +17,33 @@ public class BasePage {
     protected static final Logger logger = LogManager.getLogger(BasePage.class);
     protected WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    //  public BasePage(WebDriver driver) {
-    //    this.driver = driver;
-    //    this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    //  }
-
-    protected WebElement waitForVisibility(By locator) {
+    public WebElement waitForVisibility(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    protected WebElement waitForClickable(By locator) {
+    public WebElement waitForVisibilityText(String text) {
+        return waitForVisibility(By.xpath(String.format("//*[text()='%s']", text)));
+    }
+
+    public WebElement waitForClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    protected void click(By locator) {
+    public void click(By locator) {
         waitForClickable(locator).click();
     }
 
-    protected void type(By locator, String text) {
+    public void clickButtonByName(String buttonName) {
+        click(By.xpath(String.format("//*[text()='%s']", buttonName)));
+    }
+
+    public void type(By locator, String text) {
         WebElement element = waitForVisibility(locator);
         element.clear();
         element.sendKeys(text);
     }
 
-    protected String getText(By locator) {
+    public String getText(By locator) {
         return waitForVisibility(locator).getText();
     }
 
@@ -48,11 +51,11 @@ public class BasePage {
         driver.get(url);
     }
 
-    protected boolean isElementExist(By locator) {
+    public boolean isElementExist(By locator) {
         return !driver.findElements(locator).isEmpty();
     }
 
-    protected WebDriver getDriver() {
+    public WebDriver getDriver() {
         return driver;
     }
 }
