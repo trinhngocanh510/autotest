@@ -58,4 +58,16 @@ public class BasePage {
     public WebDriver getDriver() {
         return driver;
     }
+
+    public String getTitlePage() {
+        return getText(By.xpath("//*[@class='title']"));
+    }
+
+    public String getErrorMessage() {
+        return getText(By.xpath("//h3[@data-test='error']"));
+    }
+
+    public boolean isVisibleText(String text) {
+        return isElementExist(By.xpath(String.format("//*[text()='%s']", text)));
+    }
 }

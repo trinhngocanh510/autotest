@@ -30,9 +30,4 @@ public class LoginSteps {
     public void iShouldBeRedirectedToTheInventoryPage() {
         Assertions.assertTrue(loginPage.isLoginSuccessfully());
     }
-
-    @Then("^I should see an error message \"([^\\\"]*)\"$")
-    public void iShouldSeeAnErrorMessage(String message) {
-        Assertions.assertEquals(message, loginPage.getErrorMessage());
-    }
 }
