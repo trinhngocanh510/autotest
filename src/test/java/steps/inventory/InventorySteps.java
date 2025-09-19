@@ -4,7 +4,7 @@ import constants.VariableName;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Assertions;
+import org.testng.Assert;
 import pages.inventory.InventoryPage;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class InventorySteps {
 
     @Then("I should see a list of products")
     public void iShouldSeeAListOfProducts() {
-        Assertions.assertTrue(inventoryPage.isDisplayListOfProduct());
+        Assert.assertTrue(inventoryPage.isDisplayListOfProduct());
     }
 
     @And("Each product should have a name, description, and price")
@@ -43,7 +43,7 @@ public class InventorySteps {
             default:
                 throw new IllegalStateException("Unexpected value: " + sortName);
         }
-        Assertions.assertEquals(
+        Assert.assertEquals(
                 listProductNameSorted,
                 listProductName,
                 "Product list is not sorted correctly: expected "
@@ -66,7 +66,7 @@ public class InventorySteps {
             default:
                 throw new IllegalStateException("Unexpected value: " + sortName);
         }
-        Assertions.assertEquals(
+        Assert.assertEquals(
                 listProductPriceSorted, listProductPrice, "Product list is not sorted correctly");
     }
 
@@ -77,7 +77,7 @@ public class InventorySteps {
 
     @Then("^I should see only detail of product \"([^\\\"]*)\"$")
     public void iShouldSeeOnlyDetailOfProduct(String productName) {
-        Assertions.assertTrue(inventoryPage.isDisplayProduct(productName));
+        Assert.assertTrue(inventoryPage.isDisplayProduct(productName));
 	}
 
 	@When("^I add product \"([^\\\"]*)\" to cart$")

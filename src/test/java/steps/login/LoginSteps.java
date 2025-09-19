@@ -3,9 +3,7 @@ package steps.login;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import org.junit.jupiter.api.Assertions;
-
+import org.testng.Assert;
 import pages.login.LoginPage;
 
 public class LoginSteps {
@@ -28,6 +26,6 @@ public class LoginSteps {
 
     @Then("I should be redirected to the inventory page")
     public void iShouldBeRedirectedToTheInventoryPage() {
-        Assertions.assertTrue(loginPage.isLoginSuccessfully());
+        Assert.assertTrue(loginPage.isLoginSuccessfully());
     }
 }

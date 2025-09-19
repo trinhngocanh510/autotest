@@ -2,10 +2,8 @@ package tests.ui.base;
 
 import core.extension.DriverLifecycleExtension;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-
-@ExtendWith({DriverLifecycleExtension.class})
-public class BaseUiTest {
+//@ExtendWith({DriverLifecycleExtension.class})
+public class BaseUiTest extends DriverLifecycleExtension {
     //    protected WebDriver driver;
     //
     //    @BeforeEach

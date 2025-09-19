@@ -13,7 +13,7 @@ Feature: Checkout Process
     And I enter last name "Anh"
     And I enter zip code "100000"
     And I click button "Continue"
-    Then I should see "Checkout: Your Information" page
+    Then I should see "Checkout: Overview" page
 
   @TC_16
   Scenario: Checkout with missing first name field

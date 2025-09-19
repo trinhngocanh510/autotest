@@ -2,7 +2,7 @@ package steps.cart;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import org.junit.jupiter.api.Assertions;
+import org.testng.Assert;
 import pages.cart.CartPage;
 
 public class CartSteps {
@@ -10,7 +10,7 @@ public class CartSteps {
 
     @Then("^I should see product \"([^\\\"]*)\" in my cart$")
     public void iShouldSeeProductInMyCart(String productName) {
-        Assertions.assertTrue(cartPage.isProductAddedToCart(productName));
+        Assert.assertTrue(cartPage.isProductAddedToCart(productName));
     }
 
     @And("^I remove product \"([^\\\"]*)\" from cart$")
@@ -20,6 +20,6 @@ public class CartSteps {
 
     @Then("^I should not see product \"([^\\\"]*)\" in my cart$")
     public void iShouldNotSeeProductInMyCart(String productName) {
-        Assertions.assertFalse(cartPage.isProductAddedToCart(productName));
+        Assert.assertFalse(cartPage.isProductAddedToCart(productName));
     }
 }

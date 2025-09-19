@@ -34,7 +34,7 @@ public class BasePage {
     }
 
     public void clickButtonByName(String buttonName) {
-        click(By.xpath(String.format("//*[text()='%s']", buttonName)));
+        click(By.xpath(String.format("//*[text()='%s' or @value='%s']", buttonName, buttonName)));
     }
 
     public void type(By locator, String text) {

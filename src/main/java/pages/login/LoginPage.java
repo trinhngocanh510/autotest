@@ -31,7 +31,7 @@ public class LoginPage extends BasePage {
         String content;
 
 		try {
-            content = new String(Files.readAllBytes(Paths.get("src/test/resources/users.json")));
+            content = new String(Files.readAllBytes(Paths.get("src/test/resources/data/users.json")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

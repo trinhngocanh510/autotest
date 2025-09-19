@@ -7,6 +7,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DriverFactory {
     private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
@@ -22,12 +26,16 @@ public class DriverFactory {
                     System.setProperty("webdriver.chrome.driver", pathDriver);
                     ChromeOptions options = new ChromeOptions();
 
-                    if (switches != null & !switches.isEmpty()) {
-                        String[] listSwitches = switches.split(",");
-                        for (String arg : listSwitches) {
-                            options.addArguments(arg);
-                        }
+                    if (switches != null) {
+                        String[] listSwitches = switches.split(";");
+                        options.addArguments(Arrays.asList(listSwitches));
                     }
+
+                    Map<String, Object> prefs = new HashMap<>();
+                    prefs.put("credentials_enable_service", false);
+                    prefs.put("profile.password_manager_enabled", false);
+	                prefs.put("profile.password_manager_leak_detection", false);
+                    options.setExperimentalOption("prefs", prefs);
 
                     driver = new ChromeDriver(options);
                     break;
@@ -37,7 +45,6 @@ public class DriverFactory {
                 default:
                     throw new IllegalArgumentException("Browser not supported: " + browser);
             }
-            driver.manage().window().maximize();
             threadDriver.set(driver);
         }
     }
