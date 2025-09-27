@@ -66,23 +66,36 @@ jobs:
 
       - name: Deploy Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./target/allure-report
-          destination_dir: reports/${{ github.run_number }}
-          keep_files: true
-
-      - name: Cleanup old reports
-        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          
+          # clone gh-pages branch
           git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          
+          # copy report of this run
+          mkdir -p gh-pages/reports/${GITHUB_RUN_NUMBER}
+          cp -r target/allure-report/* gh-pages/reports/${GITHUB_RUN_NUMBER}/
+          
+          # generate dynamic root index.html
+          echo "<!DOCTYPE html>
+          <html>
+          <head><meta charset='UTF-8'><title>Allure Reports</title></head>
+          <body>
+          <h1>Allure Reports List</h1>
+          <ul>" > gh-pages/index.html
+      
+          for dir in $(ls -1 gh-pages/reports | sort -n); do
+          echo "<li><a href='reports/$dir/index.html'>Report Run #$dir</a></li>" >> gh-pages/index.html
+          done
+          
+          echo "</ul></body></html>" >> gh-pages/index.html
+          
+          # cleanup old reports (keep last 10)
           cd gh-pages/reports
           ls -1 | sort -n | head -n -10 | xargs -r rm -rf
           cd ..
-          git add reports
-          git commit -m "Cleanup old reports, keep last 10" || echo "No old reports to delete"
+          
+          git add .
+          git commit -m "Update report list, deploy run #${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
           git push
