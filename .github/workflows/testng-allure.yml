@@ -51,6 +51,13 @@ jobs:
       - name: Generate Allure Report
         run: mvn allure:report
 
+      - name: Debug Allure output
+        run: |
+          echo "--- Allure Results ---"
+          ls -l target/allure-results || echo "No allure-results found"
+          echo "--- Allure Report ---"
+          ls -l target/site/allure-maven-plugin || echo "No allure-report found"
+
       - name: Upload Allure report
         uses: actions/upload-artifact@v4
         with:
