@@ -8,7 +8,7 @@ import io.cucumber.java.Before;
 public class Hooks {
     @Before
     public void beforeScenario() {
-        DriverFactory.initDriver();
+        DriverFactory.initDriver("gecko");
     }
 
     @After

@@ -20,6 +20,11 @@
             <artifactId>selenium-java</artifactId>
             <version>4.23.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.30.0</version>
+        </dependency>
 
         <!--        &lt;!&ndash; Allure for JUnit5 &ndash;&gt;-->
         <!--        <dependency>-->
@@ -99,7 +104,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+<!--                    <skipTests>true</skipTests>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -109,13 +117,13 @@
                 <configuration>
                     <useSystemClassLoader>true</useSystemClassLoader>
                     <includes>
-                        <include>**/*IT.java</include>
+                        <!--                        <include>**/*IT.java</include>-->
                         <include>**/*Test.java</include>
                     </includes>
-                    <!-- Thư mục kết quả Allure -->
-                    <systemPropertyVariables>
-                        <allure.results.directory>target/allure-results</allure.results.directory>
-                    </systemPropertyVariables>
+                    <skipITs>true</skipITs>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
                 <executions>
                     <execution>
