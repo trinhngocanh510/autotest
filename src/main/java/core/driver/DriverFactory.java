@@ -39,6 +39,7 @@ public class DriverFactory {
                         String[] listSwitches = switches.split(";");
                         chromeOptions.addArguments(Arrays.asList(listSwitches));
                     }
+                    chromeOptions.addArguments("--headless");
 
                     Map<String, Object> prefs = new HashMap<>();
                     prefs.put("credentials_enable_service", false);
@@ -52,6 +53,7 @@ public class DriverFactory {
                     System.setProperty("webdriver.gecko.driver", pathDriver);
 
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.addArguments("--headless");
                     driver = new FirefoxDriver(firefoxOptions);
                     driver.manage().window().maximize();
                     break;

@@ -36,6 +36,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
+    - name: Make chromedriver executable
+      run: chmod +x src/test/resources/drivers/linux/chromedriver
+
+    - name: Make geckodriver executable
+      run: chmod +x src/test/resources/drivers/linux/geckodriver
+
     - name: Run TestNG suite
       run: mvn clean verify -DsuiteXmlFile="src/test/resources/testng.xml"
 
