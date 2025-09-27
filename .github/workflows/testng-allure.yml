@@ -39,32 +39,31 @@ jobs:
       - name: Show project files
         run: ls -R
 
-      - name: Make chromedriver executable
-        run: chmod +x src/test/resources/drivers/linux/chromedriver
-
-      - name: Make geckodriver executable
-        run: chmod +x src/test/resources/drivers/linux/geckodriver
+      - name: Make drivers executable
+        run: |
+          chmod +x src/test/resources/drivers/linux/chromedriver
+          chmod +x src/test/resources/drivers/linux/geckodriver
 
       - name: Run TestNG suite
         run: mvn clean verify -DsuiteXmlFile="src/test/resources/testng.xml"
 
-      - name: Generate Allure Report
-        run: mvn allure:report
-
-      - name: Debug Allure output
+      - name: Install Allure CLI
         run: |
-          echo "--- Allure Results ---"
-          ls -l target/allure-results || echo "No allure-results found"
-          echo "--- Allure Report ---"
-          ls -l target/site/allure-maven-plugin || echo "No allure-report found"
+          sudo apt-add-repository ppa:qameta/allure -y
+          sudo apt update
+          sudo apt install allure -y
+          allure --version
 
-      - name: Upload Allure report
+      - name: Generate Allure Report
+        run: |
+          allure generate target/allure-results -o target/allure-report --clean
+          ls -R target/allure-report
+
+      - name: Upload Allure artifacts
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: |
-            target/allure-results
-            target/site/allure-maven-plugin
+          path: target/allure-report
 
       - name: Deploy Allure report to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -72,7 +71,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./target/site/allure-maven-plugin
+          publish_dir: ./target/allure-report
           destination_dir: reports/${{ github.run_number }}
           keep_files: true
 
