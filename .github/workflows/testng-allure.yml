@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - Checkout code
+    - name: Checkout code
       uses: actions/checkout@v4
   
     - name: Set up JDK 11
@@ -53,7 +53,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/site/allure-maven-plugin
         publish_branch: gh-pages
         publish_dir: ./target/site/allure-maven-plugin
         destination_dir: reports/${{ github.run_number }}
