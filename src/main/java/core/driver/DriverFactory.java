@@ -15,11 +15,20 @@ import java.util.Map;
 public class DriverFactory {
     private static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
+    private static String getPathDriver(String browser) {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows")) {
+            return ConfigLoader.get(String.format("webdriver.%s.windows", browser));
+        } else if (os.contains("linux")) {
+            return ConfigLoader.get(String.format("webdriver.%s.linux", browser));
+        } else throw new RuntimeException(String.format("OS %s not available", os));
+    }
+
     public static void initDriver(String browser) {
         WebDriver driver;
-
+        String pathDriver = getPathDriver(browser);
+//        System.out.println(pathDriver);
         if (threadDriver.get() == null) {
-            String pathDriver = ConfigLoader.get(String.format("webdriver.%s.driver", browser));
             switch (browser.toLowerCase()) {
                 case "chrome":
                     String switches = ConfigLoader.get("chrome.switches");
